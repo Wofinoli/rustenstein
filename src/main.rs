@@ -1,3 +1,5 @@
+use rustenstein;
+
 fn main() {
-    println!("Hello, world!");
+    rustenstein::run();
 }
