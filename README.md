@@ -6,5 +6,7 @@ Planned features:
 - [ ] Reading maps from files
 - [ ] Map editor
 - [ ] Raycasting graphics
-- [ ] All Wolfensein3D episode 1 levels
+- [ ] All Wolfensein3D episode 1 floors
+- [ ] All items on each floor
+- [ ] Enemy AI
 - [ ] Difficulty settings
