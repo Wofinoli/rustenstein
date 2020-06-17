@@ -1,6 +1,12 @@
 use std::fs;
 
 #[derive(Debug)]
+struct Position {
+    x: f64,
+    y: f64,
+}
+
+#[derive(Debug)]
 pub struct Map {
     tiles: Vec<Vec<u32>>,
     name: String,
