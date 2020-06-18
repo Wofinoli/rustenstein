@@ -3,10 +3,11 @@
 A Rust implementation of the Wolfenstein3D engine.
 
 Planned features:
-- [ ] Reading maps from files
-- [ ] Map editor
+- [x] Reading maps from files
 - [ ] Raycasting graphics
 - [ ] All Wolfensein3D episode 1 floors
-- [ ] All items on each floor
 - [ ] Enemy AI
+- [ ] All items on each floor
+- [ ] Game menu
 - [ ] Difficulty settings
+- [ ] Map editor
