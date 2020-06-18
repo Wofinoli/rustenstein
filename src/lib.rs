@@ -4,6 +4,9 @@ use map::Map;
 
 pub fn run() {
 
-    let level = Map::new(String::from("test.txt"));
-    println!("{:?}",level);
+    let map = Map::new(String::from("test.txt"));
+    match map {
+        Ok(m) => println!("{:?}", m),
+        Err(e) => println!("{}", e),
+    }
 }
