@@ -1,6 +1,8 @@
 mod map;
+mod window;
 
 use map::Map;
+use window::WinitState;
 
 pub fn run() {
 
@@ -9,4 +11,7 @@ pub fn run() {
         Ok(m) => println!("{:?}", m),
         Err(e) => println!("{}", e),
     }
+
+    let window_state = WinitState::default();
+    WinitState::run(window_state);
 }
