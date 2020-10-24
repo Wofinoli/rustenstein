@@ -112,7 +112,7 @@ impl WindowState {
                     wgpu::RenderPassColorAttachmentDescriptor {
                         attachment: &frame.output.view,
                         resolve_target: None,
-                        ops: wgpu::Operations::<wgpu::Color> {
+                        ops: wgpu::Operations {
                             load: wgpu::LoadOp::Clear( wgpu::Color {
                                 r: 0.1,
                                 g: 0.2,
@@ -127,8 +127,7 @@ impl WindowState {
             });
         }
     
-        let buffer = &[encoder.finish()];
-        self.queue.submit(buffer);
+        self.queue.submit(std::iter::once(encoder.finish()));
 
     }
 

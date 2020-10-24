@@ -18,6 +18,7 @@ pub fn run() {
         Err(e) => println!("{}", e),
     }
 
+    env_logger::init();
     let (event_loop, mut state) = block_on(WindowState::default()).expect("Window creation failed.");
 
     event_loop.run(move |event, _, control_flow| {
