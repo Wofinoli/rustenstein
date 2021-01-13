@@ -2,10 +2,10 @@ mod window;
 
 use window::{
     KeyEvent,
-    handle_keys,
-    ver_line,
+    WindowUtil,
     Line,
 };
+
 use sdl2::{
     pixels::Color,
     event::Event,
@@ -25,19 +25,12 @@ pub fn run() {
 
     let mut canvas = window.into_canvas().build().unwrap();
 
-    canvas.set_draw_color(Color::RGB(0, 255, 255));
+    canvas.set_draw_color(Color::RGB(0, 0, 0));
     canvas.clear();
     canvas.present();
     let mut event_pump = sdl_context.event_pump().unwrap();
-    let mut i = 0;
 
-    let to_draw = Line { start: sdl2::rect::Point::new(400, 500),
-                         end: sdl2::rect::Point::new(400, 100),
-                         color: Color::RGB(255, 255, 255), };
     'main: loop {
-        i = (i + 1) % 255;
-        canvas.set_draw_color(Color::RGB(i, 64, 255 - i));
-        canvas.clear();
         for event in event_pump.poll_iter() {
             match event {
                 Event::Quit {..} |
@@ -45,13 +38,11 @@ pub fn run() {
                     break 'main
                 },
                 Event::KeyDown {..} | Event::KeyUp {..} => {
-                    handle_keys(KeyEvent{ up: true, up_event: None, down_event: Some(event)});
+                    WindowUtil::handle_keys(KeyEvent{ up: true, up_event: None, down_event: Some(event)});
                 },
                 _ => {}
             }
         }
-
-        ver_line(&mut canvas, &to_draw);
         // Screen only updates here.
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));

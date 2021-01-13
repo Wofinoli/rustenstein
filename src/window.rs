@@ -21,14 +21,22 @@ pub struct Line {
     pub color: Color,
 }
 
-pub fn handle_keys(event: KeyEvent) {
-    println!("{:#?}", event);
+#[derive(Debug)]
+pub struct WindowUtil {
+    pub name: String,
 }
 
-pub fn ver_line(canvas: &mut Canvas<Window>, line: &Line) {
-    canvas.set_draw_color(line.color);
-    match canvas.draw_line(line.start, line.end) {
-        Err(e) => println!("Something went wrong: {:?}", e),
-        _ => (),
-    };
+impl WindowUtil {
+    pub fn handle_keys(event: KeyEvent) {
+        println!("{:#?}", event);
+    }
+
+    pub fn ver_line(canvas: &mut Canvas<Window>, line: &Line) {
+        canvas.set_draw_color(line.color);
+        match canvas.draw_line(line.start, line.end) {
+            Err(e) => println!("Something went wrong: {:?}", e),
+            _ => (),
+        };
+    }
 }
+
