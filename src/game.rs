@@ -1,5 +1,6 @@
 mod player;
 mod map;
+mod window;
 pub mod util;
 
 pub struct Game {
@@ -18,4 +19,7 @@ impl Default for Game {
 
 impl Game {
 
+    pub fn draw(canvas: &mut sdl2::Canvas){
+        unimplemented!()
+    }
 }
