@@ -1,8 +1,11 @@
-mod util;
+mod game;
 
-use util::{
-    WindowUtil,
-    KeyEvent,
+use game::{
+    Game,
+    util::{
+        WindowUtil,
+        KeyEvent,
+    },
 };
 
 use sdl2::{
@@ -28,6 +31,13 @@ pub fn run() {
     canvas.clear();
     canvas.present();
     let mut event_pump = sdl_context.event_pump().unwrap();
+
+    // Keep track of how long a frame took to draw so that all movement is at a constant speed
+    let mut time = 0;
+    let mut prev_time = 0;
+    
+    // Initialise Game
+    let mut game = Game::default();
 
     'main: loop {
         for event in event_pump.poll_iter() {

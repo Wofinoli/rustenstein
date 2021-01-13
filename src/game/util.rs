@@ -1,8 +1,6 @@
 use sdl2::{
     event::Event,
     rect::Point,
-    render::Canvas,
-    video::Window,
     pixels::Color,
 };
 
@@ -48,12 +46,4 @@ impl WindowUtil {
         println!("{:#?}", event);
     }
 
-    pub fn ver_line(canvas: &mut Canvas<Window>, line: &Line) {
-        canvas.set_draw_color(line.color);
-        match canvas.draw_line(line.start, line.end) {
-            Err(e) => println!("Something went wrong: {:?}", e),
-            _ => (),
-        };
-    }
 }
-

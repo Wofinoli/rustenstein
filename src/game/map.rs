@@ -1,12 +1,7 @@
-mod player;
-
-use player::Player;
-
 pub struct WorldMap {
     name: String,
     size: u8,
     map: Vec<Vec<u8>>,
-    player: player::Player,
 }
 
 impl Default for WorldMap {
@@ -44,7 +39,6 @@ impl Default for WorldMap {
             name,
             size,
             map,
-            player: player::Default(),
         }
     }
 }
