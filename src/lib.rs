@@ -1,48 +1,51 @@
-mod map;
 mod window;
 
-use map::Map;
-use window::WindowState;
-use winit::{
-    event::*,
-    event_loop::ControlFlow,
+use window::{
+    KeyEvent,
+    handle_keys,
 };
-use futures::executor::block_on;
+use sdl2::{
+    pixels::Color,
+    event::Event,
+    keyboard::Keycode,
+};
 
+use std::time::Duration;
 
 pub fn run() {
+    let sdl_context = sdl2::init().unwrap();
+    let video_subsystem = sdl_context.video().unwrap();
 
-    let map = Map::new(String::from("test.txt"));
-    match map {
-        Ok(m) => println!("{:?}", m),
-        Err(e) => println!("{}", e),
+    let window = video_subsystem.window("rust-sdl2 demo", 800, 600)
+        .position_centered()
+        .build()
+        .unwrap();
+
+    let mut canvas = window.into_canvas().build().unwrap();
+
+    canvas.set_draw_color(Color::RGB(0, 255, 255));
+    canvas.clear();
+    canvas.present();
+    let mut event_pump = sdl_context.event_pump().unwrap();
+    let mut i = 0;
+    'running: loop {
+        i = (i + 1) % 255;
+        canvas.set_draw_color(Color::RGB(i, 64, 255 - i));
+        canvas.clear();
+        for event in event_pump.poll_iter() {
+            match event {
+                Event::Quit {..} |
+                Event::KeyDown { keycode: Some(Keycode::Escape), ..} => {
+                    break 'running
+                },
+                Event::KeyDown {..} | Event::KeyUp {..} => {
+                    handle_keys(KeyEvent{ up: true, up_event: None, down_event: Some(event)});
+                },
+                _ => {}
+            }
+        }
     }
 
-    env_logger::init();
-    let (event_loop, mut state) = block_on(WindowState::default()).expect("Window creation failed.");
-
-    event_loop.run(move |event, _, control_flow| {
-        match event {
-            Event::WindowEvent {
-                ref event,
-                window_id,
-            } if window_id == state.window.id() => if !state.input(event) {
-                match event {
-                    WindowEvent::CloseRequested => *control_flow = ControlFlow::Exit,
-                    WindowEvent::KeyboardInput { input, .. } => WindowState::handle_key_input(*input),
-                    WindowEvent::Resized(physical_size) => { state.resize(*physical_size) },
-                    WindowEvent::ScaleFactorChanged {new_inner_size, ..} => { state.resize(**new_inner_size) },
-                    _ => (),
-                }
-            },
-            Event::RedrawRequested(_) => {
-                state.update();
-                state.render();
-            },
-            Event::MainEventsCleared => {
-                state.window.request_redraw();
-            },
-            _ => ()
-        }
-    });
+    canvas.present();
+    ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
 }
