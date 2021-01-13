@@ -1,12 +1,10 @@
 mod window;
 mod map;
+mod util;
 
-use map::WorldMap;
-
-use window::{
-    KeyEvent,
+use util::{
     WindowUtil,
-    Line,
+    KeyEvent,
 };
 
 use sdl2::{
