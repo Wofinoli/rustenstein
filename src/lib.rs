@@ -1,4 +1,7 @@
 mod window;
+mod map;
+
+use map::WorldMap;
 
 use window::{
     KeyEvent,
