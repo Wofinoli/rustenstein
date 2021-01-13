@@ -28,7 +28,7 @@ pub fn run() {
     canvas.present();
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut i = 0;
-    'running: loop {
+    'main: loop {
         i = (i + 1) % 255;
         canvas.set_draw_color(Color::RGB(i, 64, 255 - i));
         canvas.clear();
@@ -36,7 +36,7 @@ pub fn run() {
             match event {
                 Event::Quit {..} |
                 Event::KeyDown { keycode: Some(Keycode::Escape), ..} => {
-                    break 'running
+                    break 'main
                 },
                 Event::KeyDown {..} | Event::KeyUp {..} => {
                     handle_keys(KeyEvent{ up: true, up_event: None, down_event: Some(event)});
@@ -44,8 +44,7 @@ pub fn run() {
                 _ => {}
             }
         }
+        canvas.present();
+        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }
-
-    canvas.present();
-    ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
 }
