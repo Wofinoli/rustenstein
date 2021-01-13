@@ -1,5 +1,3 @@
-mod window;
-mod map;
 mod util;
 
 use util::{
@@ -19,7 +17,7 @@ pub fn run() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
 
-    let window = video_subsystem.window("rust-sdl2 demo", 800, 600)
+    let window = video_subsystem.window("rust-sdl2 demo", 640, 480)
         .position_centered()
         .build()
         .unwrap();
