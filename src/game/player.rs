@@ -1,9 +1,9 @@
 use crate::game::util;
 
 pub struct Player {
-    pos: util::Vector2d,
-    dir: util::Vector2d,
-    plane: util::Vector2d,
+    pub pos: util::Vector2d,
+    pub dir: util::Vector2d,
+    pub plane: util::Vector2d,
 }
 
 impl Default for Player {
