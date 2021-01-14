@@ -47,3 +47,10 @@ impl WindowUtil {
     }
 
 }
+
+#[derive(PartialEq)]
+pub enum Hit {
+    Miss,
+    XSide,
+    YSide,
+}

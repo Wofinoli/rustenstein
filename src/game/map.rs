@@ -1,7 +1,9 @@
+use std::ops::Index;
+
 pub struct WorldMap {
     name: String,
     size: u8,
-    map: Vec<Vec<u8>>,
+    pub map: Vec<Vec<u8>>,
 }
 
 impl Default for WorldMap {
@@ -40,5 +42,13 @@ impl Default for WorldMap {
             size,
             map,
         }
+    }
+}
+
+impl Index<usize> for WorldMap {
+    type Output = Vec<u8>;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.map[index]
     }
 }
