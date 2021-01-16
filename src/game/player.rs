@@ -6,6 +6,12 @@ pub struct Player {
     pub plane: util::Vector2d,
 }
 
+impl Player {
+    pub fn update(&mut self) {
+        println!("Updating");
+    }
+}
+
 impl Default for Player {
     fn default() -> Self {
         Self {

@@ -55,8 +55,6 @@ impl Game {
             let mut step = Vector2d::new(0.0,0.0);
             let mut side_dist = Vector2d::new(0.0, 0.0);
 
-            println!("{:?}", delta_dist);
-
             if ray_dir.x < 0.0 {
                 step.x = -1.0;
                 side_dist.x = (self.player.pos.x - map_pos.x) * delta_dist.x;
@@ -138,9 +136,7 @@ impl Game {
         let speed = modifier * 5.0;
         let rot_rate = modifier * 3.0;
         
-
-        let (prev_x, prev_y) = (self.player.pos.x, self.player.pos.y);
-        let (prev_dir_x, _prev_dir_y) = (self.player.dir.x, self.player.dir.y);
+        let prev_dir_x = self.player.dir.x;
         let (delta_x, delta_y) = (self.player.dir.x * speed, self.player.dir.y * speed);
         let size = self.map.size;
 
@@ -159,7 +155,6 @@ impl Game {
                 if new_y < size && self.map[*pos_x as usize][(*pos_y + delta_y) as usize] == 0 {
                     *pos_y += delta_y;
                 }
-                println!("Speed {:?}, Old: {:?}, New: {:?}", speed, (prev_x, prev_y), (*pos_x, *pos_y));
             },
             Scancode::S => {
                 let new_x = (*pos_x - delta_x) as usize;
@@ -167,12 +162,11 @@ impl Game {
 
 
                 if new_x < size && self.map[new_x][*pos_y as usize] == 0 {
-                        *pos_x -= delta_x;
+                    *pos_x -= delta_x;
                 }
                 if new_y < size && self.map[*pos_x as usize][new_y] == 0 {
                     *pos_y -= delta_y;
                 }
-                println!("Speed {:?}, Old: {:?}, New: {:?}", speed, (prev_x, prev_y), (*pos_x, *pos_y));
             },
             Scancode::A => {
                 *dir_x = *dir_x * (rot_rate).cos() - *dir_y * (rot_rate).sin();
@@ -191,6 +185,10 @@ impl Game {
             _ => (),
         }
 
+    }
+
+    pub fn update(&mut self) {
+        self.player.update();
     }
 
 }

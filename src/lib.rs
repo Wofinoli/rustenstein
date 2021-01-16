@@ -10,13 +10,11 @@ use sdl2::{
 
 use time::Instant;
 
-use std::time::Duration;
-
 pub fn run() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
 
-    let window = video_subsystem.window("rust-sdl2 demo", 640, 480)
+    let window = video_subsystem.window("Rustenstein", 640, 480)
         .position_centered()
         .build()
         .unwrap();
@@ -30,7 +28,6 @@ pub fn run() {
     let mut time = Instant::now();
     let mut game = Game::default();
 
-    println!("{:?}", time);
     'main: loop {
          // Keep track of how long a frame took to draw so that all movement is at a constant speed
         let prev_time = time;
@@ -56,6 +53,7 @@ pub fn run() {
         game.draw(&mut canvas);
         // Screen only updates here.
         canvas.present();
-        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
+
+        game.update();
     }
 }
