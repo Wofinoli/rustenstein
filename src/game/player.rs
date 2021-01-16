@@ -9,7 +9,7 @@ pub struct Player {
 impl Default for Player {
     fn default() -> Self {
         Self {
-            pos: util::Vector2d::new(10.0,10.0),
+            pos: util::Vector2d::new(22.0,12.0),
             dir: util::Vector2d::new(-1.0, 0.0),
             plane: util::Vector2d::new(0.0, 0.66),
         }
