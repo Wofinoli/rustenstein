@@ -45,9 +45,9 @@ impl Game {
 
         let mut to_draw = Vec::<Line>::new();
         for x in 0..width {
-            let camera_x = (2 * x) as f64 / width as f64 - 1.0;
+            let camera_x = (2 * x) as f64 / (width as f64) - 1.0;
             let ray_dir = Vector2d::new(self.player.dir.x + self.player.plane.x * camera_x,
-                                              self.player.dir.y + self.player.plane.y * camera_x);
+                                        self.player.dir.y + self.player.plane.y * camera_x);
 
             let mut map_pos = Vector2d::new(self.player.pos.x.trunc(), self.player.pos.y.trunc());
             let delta_dist = Vector2d::new( (1.0 /ray_dir.x).abs(), (1.0 /ray_dir.y).abs() );
@@ -138,9 +138,13 @@ impl Game {
         
 
         let (prev_x, prev_y) = (self.player.pos.x, self.player.pos.y);
-        let (pos_x, pos_y) = (&mut self.player.pos.x, &mut self.player.pos.y);
+        let (prev_dir_x, _prev_dir_y) = (self.player.dir.x, self.player.dir.y);
         let (delta_x, delta_y) = (self.player.dir.x * speed, self.player.dir.y * speed);
         let size = self.map.size;
+
+        let (pos_x, pos_y) = (&mut self.player.pos.x, &mut self.player.pos.y);
+        let (dir_x, dir_y) = (&mut self.player.dir.x, &mut self.player.dir.y);
+        let (plane_x, plane_y) = (&mut self.player.plane.x, &mut self.player.plane.y);
 
         match key {
             Scancode::W => {
@@ -153,6 +157,7 @@ impl Game {
                 if new_y < size && self.map[*pos_x as usize][(*pos_y + delta_y) as usize] == 0 {
                     *pos_y += delta_y;
                 }
+                println!("Speed {:?}, Old: {:?}, New: {:?}", speed, (prev_x, prev_y), (*pos_x, *pos_y));
             },
             Scancode::S => {
                 let new_x = (*pos_x - delta_x) as usize;
@@ -165,11 +170,25 @@ impl Game {
                 if new_y < size && self.map[*pos_x as usize][new_y] == 0 {
                     *pos_y -= delta_y;
                 }
+                println!("Speed {:?}, Old: {:?}, New: {:?}", speed, (prev_x, prev_y), (*pos_x, *pos_y));
+            },
+            Scancode::A => {
+                *dir_x = *dir_x * (rot_rate).cos() - *dir_y * (rot_rate).sin();
+                *dir_y = prev_dir_x * (rot_rate).sin() + *dir_y * (rot_rate).cos();
+                let prev_plane_x = *plane_x;
+                *plane_x = *plane_x * (rot_rate).cos() - *plane_y * (rot_rate).sin();
+                *plane_y = prev_plane_x * (rot_rate).sin() + *plane_y * (rot_rate).cos();
+            },
+            Scancode::D => {
+                *dir_x = *dir_x * (-rot_rate).cos() - *dir_y * (-rot_rate).sin();
+                *dir_y = prev_dir_x * (-rot_rate).sin() + *dir_y * (-rot_rate).cos();
+                let prev_plane_x = *plane_x;
+                *plane_x = *plane_x * (-rot_rate).cos() - *plane_y * (-rot_rate).sin();
+                *plane_y = prev_plane_x * (-rot_rate).sin() + *plane_y * (-rot_rate).cos();
             },
             _ => (),
         }
 
-        println!("Speed {:?}, Old: {:?}, New: {:?}", speed, (prev_x, prev_y), (*pos_x, *pos_y));
     }
 
 }
