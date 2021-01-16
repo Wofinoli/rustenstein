@@ -55,6 +55,8 @@ impl Game {
             let mut step = Vector2d::new(0.0,0.0);
             let mut side_dist = Vector2d::new(0.0, 0.0);
 
+            println!("{:?}", delta_dist);
+
             if ray_dir.x < 0.0 {
                 step.x = -1.0;
                 side_dist.x = (self.player.pos.x - map_pos.x) * delta_dist.x;
@@ -78,7 +80,7 @@ impl Game {
                     map_pos.x += step.x;
                     hit_state = Hit::XSide;
                 } else {
-                    side_dist.y += delta_dist.x;
+                    side_dist.y += delta_dist.y;
                     map_pos.y += step.y;
                     hit_state = Hit::YSide;
                 }
