@@ -8,6 +8,12 @@ use sdl2::{
     pixels::Color,
     rect::Point,
 };
+use util::{
+    Hit,
+    Line,
+    KeyEvent,
+    Vector2d,
+};
 
 pub struct Game {
     map: map::WorldMap,
@@ -33,21 +39,21 @@ impl Game {
         }
     }
 
-    fn calculate_lines(&self, canvas: &Canvas<video::Window>) -> Vec<util::Line> {
+    fn calculate_lines(&self, canvas: &Canvas<video::Window>) -> Vec<Line> {
         let (height, width) = canvas.window().size();
         let (height, width) = (height as i32, width as i32);
 
-        let mut to_draw = Vec::<util::Line>::new();
+        let mut to_draw = Vec::<Line>::new();
         for x in 0..width {
             let camera_x = (2 * x) as f64 / width as f64 - 1.0;
-            let ray_dir = util::Vector2d::new(self.player.dir.x + self.player.plane.x * camera_x,
+            let ray_dir = Vector2d::new(self.player.dir.x + self.player.plane.x * camera_x,
                                               self.player.dir.y + self.player.plane.y * camera_x);
 
-            let mut map_pos = util::Vector2d::new(self.player.pos.x.trunc(), self.player.pos.y.trunc());
-            let delta_dist = util::Vector2d::new( (1.0 /ray_dir.x).abs(), (1.0 /ray_dir.y).abs() );
+            let mut map_pos = Vector2d::new(self.player.pos.x.trunc(), self.player.pos.y.trunc());
+            let delta_dist = Vector2d::new( (1.0 /ray_dir.x).abs(), (1.0 /ray_dir.y).abs() );
 
-            let mut step = util::Vector2d::new(0.0,0.0);
-            let mut side_dist = util::Vector2d::new(0.0, 0.0);
+            let mut step = Vector2d::new(0.0,0.0);
+            let mut side_dist = Vector2d::new(0.0, 0.0);
 
             if ray_dir.x < 0.0 {
                 step.x = -1.0;
@@ -70,11 +76,11 @@ impl Game {
                 if side_dist.x < side_dist.y {
                     side_dist.x += delta_dist.x;
                     map_pos.x += step.x;
-                    hit_state = util::Hit::XSide;
+                    hit_state = Hit::XSide;
                 } else {
                     side_dist.y += delta_dist.x;
                     map_pos.y += step.y;
-                    hit_state = util::Hit::YSide;
+                    hit_state = Hit::YSide;
                 }
 
                 if self.map[map_pos.x as usize][map_pos.y as usize] > 0 {
@@ -84,9 +90,9 @@ impl Game {
 
             let perp_wall_dist = {
                 match hit_state {
-                    util::Hit::XSide => (map_pos.x - self.player.pos.x + (1.0 - step.x) / 2.0) / ray_dir.x,
-                    util::Hit::YSide => (map_pos.y - self.player.pos.y + (1.0 - step.y) / 2.0) / ray_dir.y,
-                    util::Hit::Miss => panic!("Ray didn't hit a wall!"),
+                    Hit::XSide => (map_pos.x - self.player.pos.x + (1.0 - step.x) / 2.0) / ray_dir.x,
+                    Hit::YSide => (map_pos.y - self.player.pos.y + (1.0 - step.y) / 2.0) / ray_dir.y,
+                    Hit::Miss => panic!("Ray didn't hit a wall!"),
                 }
             };
 
@@ -103,13 +109,13 @@ impl Game {
                 _ => Color::YELLOW,
             };
 
-            if hit_state == util::Hit::YSide {
+            if hit_state == Hit::YSide {
                 color.r /= 2;
                 color.g /= 2;
                 color.b /= 2;
             }
             
-            to_draw.push(util::Line {
+            to_draw.push(Line {
                 start,
                 end,
                 color,
@@ -118,12 +124,16 @@ impl Game {
         to_draw
     }
 
-    pub fn ver_line(canvas: &mut Canvas<video::Window>, line: util::Line) {
+    pub fn ver_line(canvas: &mut Canvas<video::Window>, line: Line) {
         canvas.set_draw_color(line.color);
         match canvas.draw_line(line.start, line.end) {
             Err(e) => println!("Something went wrong: {:?}", e),
             _ => (),
         };
+    }
+
+    pub fn handle_keys(&mut self, event: KeyEvent) {
+        println!("{:#?}", event);
     }
 
 }

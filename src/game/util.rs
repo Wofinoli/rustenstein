@@ -36,18 +36,6 @@ impl Vector2d {
     }    
 }
 
-#[derive(Debug)]
-pub struct WindowUtil {
-    pub name: String,
-}
-
-impl WindowUtil {
-    pub fn handle_keys(event: KeyEvent) {
-        println!("{:#?}", event);
-    }
-
-}
-
 #[derive(PartialEq)]
 pub enum Hit {
     Miss,
