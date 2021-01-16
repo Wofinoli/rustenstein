@@ -132,18 +132,44 @@ impl Game {
         };
     }
 
-    pub fn handle_keys(&mut self, key: Scancode, frame_time: f64) {
-        let speed = frame_time * 5.0;
-        let rot_rate = frame_time * 3.0;
+    pub fn handle_keys(&mut self, key: Scancode, modifier: f64) {
+        let speed = modifier * 5.0;
+        let rot_rate = modifier * 3.0;
         
-        let (player_x, player_y) = (self.player.pos.x.trunc(), self.player.pos.y.trunc());
+
+        let (prev_x, prev_y) = (self.player.pos.x, self.player.pos.y);
+        let (pos_x, pos_y) = (&mut self.player.pos.x, &mut self.player.pos.y);
+        let (delta_x, delta_y) = (self.player.dir.x * speed, self.player.dir.y * speed);
+        let size = self.map.size;
+
         match key {
-            W => {
-                // TODO: Implement walking forwards
+            Scancode::W => {
+                let new_x = (*pos_x + delta_x) as usize;
+                let new_y = (*pos_y + delta_y) as usize;
+
+                if new_x < size && self.map[new_x][*pos_y as usize] == 0 {
+                    *pos_x += delta_x;
+                }
+                if new_y < size && self.map[*pos_x as usize][(*pos_y + delta_y) as usize] == 0 {
+                    *pos_y += delta_y;
+                }
+            },
+            Scancode::S => {
+                let new_x = (*pos_x - delta_x) as usize;
+                let new_y = (*pos_y - delta_y) as usize;
+
+
+                if new_x < size && self.map[new_x][*pos_y as usize] == 0 {
+                        *pos_x -= delta_x;
+                }
+                if new_y < size && self.map[*pos_x as usize][new_y] == 0 {
+                    *pos_y -= delta_y;
+                }
             },
             _ => (),
         }
-        println!("{:?}", key);
+
+        println!("Speed {:?}, Old: {:?}, New: {:?}", speed, (prev_x, prev_y), (*pos_x, *pos_y));
     }
 
 }

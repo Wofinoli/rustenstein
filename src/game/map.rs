@@ -2,7 +2,7 @@ use std::ops::Index;
 
 pub struct WorldMap {
     name: String,
-    size: u8,
+    pub size: usize,
     pub map: Vec<Vec<u8>>,
 }
 

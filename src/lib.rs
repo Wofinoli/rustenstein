@@ -32,16 +32,17 @@ pub fn run() {
 
     println!("{:?}", time);
     'main: loop {
+         // Keep track of how long a frame took to draw so that all movement is at a constant speed
+        let prev_time = time;
+        time = Instant::now();
+        let frame_time = (time - prev_time).whole_milliseconds() as f64 / 1000.0;
+        //println!("FPS {:?}", 1.0 / frame_time);
+
         canvas.set_draw_color(Color::RGB(0, 0, 0));
         canvas.clear();
         for event in event_pump.poll_iter() {
 
-            // Keep track of how long a frame took to draw so that all movement is at a constant speed
-            let prev_time = time;
-            time = Instant::now();
-            let frame_time = (time - prev_time).whole_milliseconds() as f64 / 1000.0;
-            //println!("FPS {:?}", 1.0 / frame_time);
-            match event {
+           match event {
                 Event::Quit {..} |
                 Event::KeyDown { keycode: Some(Keycode::Escape), ..} => {
                     break 'main
