@@ -1,9 +1,6 @@
 mod game;
 
-use game::{
-    Game,
-    util::KeyEvent,
-};
+use game::Game;
 
 use sdl2::{
     pixels::Color,
@@ -29,26 +26,28 @@ pub fn run() {
     canvas.present();
     let mut event_pump = sdl_context.event_pump().unwrap();
 
-    // Keep track of how long a frame took to draw so that all movement is at a constant speed
-    let mut _time = 0;
-    let mut _prev_time = 0;
-    
     // Initialise Game
+    let mut time = Instant::now();
     let mut game = Game::default();
 
-    let time = Instant::now();
     println!("{:?}", time);
     'main: loop {
         canvas.set_draw_color(Color::RGB(0, 0, 0));
         canvas.clear();
         for event in event_pump.poll_iter() {
+
+            // Keep track of how long a frame took to draw so that all movement is at a constant speed
+            let prev_time = time;
+            time = Instant::now();
+            let frame_time = (time - prev_time).whole_milliseconds() as f64 / 1000.0;
+            //println!("FPS {:?}", 1.0 / frame_time);
             match event {
                 Event::Quit {..} |
                 Event::KeyDown { keycode: Some(Keycode::Escape), ..} => {
                     break 'main
                 },
-                Event::KeyDown {..} | Event::KeyUp {..} => {
-                    game.handle_keys(KeyEvent{ up: true, up_event: None, down_event: Some(event)});
+                Event::KeyDown {scancode: Some(code), ..} => {
+                    game.handle_keys(code, frame_time);
                 },
                 _ => {}
             }
@@ -58,5 +57,4 @@ pub fn run() {
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }
-    println!("Time elapsed: {:?}", (Instant::now() - time).whole_milliseconds());
 }

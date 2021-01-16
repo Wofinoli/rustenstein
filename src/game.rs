@@ -4,6 +4,7 @@ pub mod util;
 
 use sdl2::{
     render::Canvas,
+    keyboard::Scancode,
     video,
     pixels::Color,
     rect::Point,
@@ -11,7 +12,6 @@ use sdl2::{
 use util::{
     Hit,
     Line,
-    KeyEvent,
     Vector2d,
 };
 
@@ -132,8 +132,18 @@ impl Game {
         };
     }
 
-    pub fn handle_keys(&mut self, event: KeyEvent) {
-        println!("{:#?}", event);
+    pub fn handle_keys(&mut self, key: Scancode, frame_time: f64) {
+        let speed = frame_time * 5.0;
+        let rot_rate = frame_time * 3.0;
+        
+        let (player_x, player_y) = (self.player.pos.x.trunc(), self.player.pos.y.trunc());
+        match key {
+            W => {
+                // TODO: Implement walking forwards
+            },
+            _ => (),
+        }
+        println!("{:?}", key);
     }
 
 }

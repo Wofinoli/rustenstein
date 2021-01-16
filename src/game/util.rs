@@ -1,16 +1,17 @@
 use sdl2::{
-    event::Event,
+ //   event::Event,
     rect::Point,
     pixels::Color,
 };
 
 
-#[derive(Debug)]
+/*#[derive(Debug)]
 pub struct KeyEvent {
     pub up: bool,
     pub up_event: Option<Event>,
     pub down_event: Option<Event>,
 }
+*/
 
 #[derive(Debug)]
 pub struct Line {
