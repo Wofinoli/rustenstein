@@ -39,7 +39,6 @@ impl Vector2d {
 
 #[derive(PartialEq)]
 pub enum Hit {
-    Miss,
     XSide,
     YSide,
 }

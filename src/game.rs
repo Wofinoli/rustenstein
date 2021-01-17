@@ -40,8 +40,8 @@ impl Game {
     }
 
     fn calculate_lines(&self, canvas: &Canvas<video::Window>) -> Vec<Line> {
-        let (height, width) = canvas.window().size();
-        let (height, width) = (height as i32, width as i32);
+        let (width, height) = canvas.window().size();
+        let (width, height) = (width as i32, height as i32);
 
         let mut to_draw = Vec::<Line>::new();
         for x in 0..width {
@@ -92,7 +92,6 @@ impl Game {
                 match hit_state {
                     Hit::XSide => (map_pos.x - self.player.pos.x + (1.0 - step.x) / 2.0) / ray_dir.x,
                     Hit::YSide => (map_pos.y - self.player.pos.y + (1.0 - step.y) / 2.0) / ray_dir.y,
-                    Hit::Miss => panic!("Ray didn't hit a wall!"),
                 }
             };
 
