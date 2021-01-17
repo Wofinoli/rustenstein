@@ -132,8 +132,8 @@ impl Game {
     }
 
     pub fn handle_keys(&mut self, key: Scancode, modifier: f64) {
-        let speed = modifier * 5.0;
-        let rot_rate = modifier * 3.0;
+        let speed = modifier * 7.5; //5.0;
+        let rot_rate = modifier * 5.0; //3.0;
         
         let prev_dir_x = self.player.dir.x;
         let (delta_x, delta_y) = (self.player.dir.x * speed, self.player.dir.y * speed);
