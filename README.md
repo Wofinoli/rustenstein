@@ -1,6 +1,9 @@
 # Rustenstein
 
-A Rust implementation of the Wolfenstein3D engine. Uses WebGPU.
+A Rust implementation of the Wolfenstein3D engine using SDL2.
+
+## Screenshots
+
 
 Planned features:
 - [x] Reading maps from files
