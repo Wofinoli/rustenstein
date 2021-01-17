@@ -184,11 +184,10 @@ impl Game {
             },
             _ => (),
         }
-
     }
 
     pub fn update(&mut self) {
-        self.player.update();
+        //self.player.update();
     }
 
 }

@@ -7,17 +7,16 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn update(&mut self) {
-        println!("Updating");
-    }
+    //pub fn update(&mut self) {
+    //}
 }
 
 impl Default for Player {
     fn default() -> Self {
         Self {
-            pos: util::Vector2d::new(22.0,12.0),
-            dir: util::Vector2d::new(-1.0, 0.0),
-            plane: util::Vector2d::new(0.0, 0.66),
+            pos: util::Vector2d::new(15.0,8.0),
+            dir: util::Vector2d::new(0.0, 1.0),
+            plane: util::Vector2d::new(0.66, 0.0),
         }
     }
 }
