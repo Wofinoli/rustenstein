@@ -33,7 +33,7 @@ pub fn run() {
         let prev_time = time;
         time = Instant::now();
         let frame_time = (time - prev_time).whole_milliseconds() as f64 / 1000.0;
-        //println!("FPS {:?}", 1.0 / frame_time);
+        println!("FPS {:?}", 1.0 / frame_time);
 
         canvas.set_draw_color(Color::RGB(0, 0, 0));
         canvas.clear();
