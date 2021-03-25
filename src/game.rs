@@ -74,12 +74,12 @@ impl Game {
             let mut hit_state;
             'dda: loop {
                 if side_dist.x < side_dist.y {
-                    side_dist.x += delta_dist.x;
-                    map_pos.x += step.x;
+                    side_dist.add_x(delta_dist.x);
+                    map_pos.add_x(step.x);
                     hit_state = Hit::XSide;
                 } else {
-                    side_dist.y += delta_dist.y;
-                    map_pos.y += step.y;
+                    side_dist.add_y(delta_dist.y);
+                    map_pos.add_y(step.y);
                     hit_state = Hit::YSide;
                 }
 

@@ -37,12 +37,12 @@ impl Vector2d {
     }    
 
     pub fn add_x(&mut self, x: f64) {
-        self.x = self.x + x;
+        self.x += x;
         self.update_length();
     }
 
     pub fn add_y(&mut self, y: f64) {
-        self.y = self.y + y;
+        self.y += y;
         self.update_length();
     }
 
